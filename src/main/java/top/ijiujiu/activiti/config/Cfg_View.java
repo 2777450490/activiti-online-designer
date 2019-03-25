@@ -5,7 +5,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
- * Created by liuruijie on 2017/3/5.
+ * Created by top.ijiujiu on 2019/3/25.
  */
 @Configuration
 public class Cfg_View extends WebMvcConfigurerAdapter {

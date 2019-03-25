@@ -6,6 +6,9 @@ import org.activiti.rest.common.util.DateToStringSerializer;
 
 import java.util.Date;
 
+/**
+ * Created by top.ijiujiu on 2019/3/25.
+ */
 public class DeploymentResponse {
 
   private String id;

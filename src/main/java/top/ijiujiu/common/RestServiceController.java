@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import java.io.Serializable;
 
 /**
- * Created by liuruijie on 2017/3/30.
- * restful的基本规范
+ * Created by top.ijiujiu on 2019/3/25.
+ * Restful的基本规范
  */
 public interface RestServiceController<T, ID extends Serializable> {
     /**
