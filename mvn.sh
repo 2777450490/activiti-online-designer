@@ -20,4 +20,4 @@ mvn clean install -Dmaven.test.skip=true
 killSpringBootServer
 
 cp $PROJ_PATH/activiti-online-designer/target/activiti-demo.jar /root/jars
-sh $PROJ_PATH/startup.sh
+sh $PROJ_PATH/activiti-online-designer/startup.sh
