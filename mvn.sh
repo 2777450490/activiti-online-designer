@@ -20,4 +20,5 @@ killSpringBootServer
 
 cd $PROJ_PATH/activiti-online-designer/target/
 jar_path=`find . -name "activiti-demo-*-SNAPSHOT.jar"`
+echo "jar_path:$jar_path"
 java -jar $jar_path --server.port=9999
