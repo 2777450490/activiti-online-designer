@@ -18,6 +18,6 @@ clean install -Dmaven.test.skip=true -Ptest
 
 killSpringBootServer
 
-#cd $PROJ_PATH/activiti-online-designer/target/
-#jar_path=find . -name "activiti-demo-*-SNAPSHOT.jar"
-#java -jar $jar_path --server.port=9999
+cd $PROJ_PATH/activiti-online-designer/target/
+jar_path=`find . -name "activiti-demo-*-SNAPSHOT.jar"`
+java -jar $jar_path --server.port=9999
