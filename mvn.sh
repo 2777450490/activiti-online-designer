@@ -4,7 +4,7 @@
 # export PROJ_PATH=这个jenkins任务在部署机器上的路径
 
 killSpringBootServer(){
-    pid=`ps -ef|grep activiti-demo|grep -v grep|awk '{print $2}'`
+    pid=`ps -ef|grep activiti-demo.jar|grep -v grep|awk '{print $2}'`
     echo "jar Id list :$pid"
     if [ "$pid" = "" ]
     then
@@ -19,7 +19,5 @@ mvn clean install -Dmaven.test.skip=true
 
 killSpringBootServer
 
-cd $PROJ_PATH/activiti-online-designer/target/
-jar_path=`find -name "activiti-demo-*-SNAPSHOT.jar"`
-echo "jar_path:$jar_path"
-java -jar $jar_path --server.port=9999
+cp $PROJ_PATH/activiti-online-designer/target/activiti-demo.jar /root/jars
+sh $PROJ_PATH/startup.sh
