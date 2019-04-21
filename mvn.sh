@@ -13,8 +13,9 @@ killSpringBootServer(){
       kill -9 $pid
     fi
 }
+
 cd $PROJ_PATH/activiti-online-designer
-mvn clean install -Dmaven.test.skip=true -Ptest
+mvn clean install -Dmaven.test.skip=true
 
 killSpringBootServer
 
