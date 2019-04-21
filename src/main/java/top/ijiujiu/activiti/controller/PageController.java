@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class PageController {
     @GetMapping("editor")
     public String test(){
-        return "/modeler";
+        return "modeler";
     }
 }
