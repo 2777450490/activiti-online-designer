@@ -1,92 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh_cn">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>模型管理</title>
+    <link rel="stylesheet" href="bootstrap-4.3.1/css/bootstrap.min.css"/>
+    <style>
+        .table-responsive{
+            width: 1000px;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
-<div id="top">
-</div>
-<h2>模型列表</h2>
-<hr>
-<a href="javascript: AJAX.POST('/models/newModel')">绘制流程</a>
-<table border="1" id="model-list">
-    <tr>
-        <td>模型编号</td>
-        <td>模型名称</td>
-        <td>版本</td>
-        <td>创建时间</td>
-        <td>操作</td>
-    </tr>
-    <script id="models" type="text/html">
-        <tr>
-            <td>模型编号</td>
-            <td>模型名称</td>
-            <td>版本</td>
-            <td>创建时间</td>
-            <td>操作</td>
-        </tr>
-        {{each rows.list}}
-        <tr>
-            <td>{{$value.id}}</td>
-            <td>{{$value.name}}</td>
-            <td>{{$value.version}}</td>
-            <td>{{$value.createTime}}</td>
-            <td>
-                <a href="/editor?modelId={{$value.id}}">编辑</a>
-             <a href="javascript: AJAX.DELETE('/models/{{$value.id}}')">删除</a>
-             <a href="javascript: AJAX.POST('/models/{{$value.id}}/deployment')">发布</a>
-            </td>
-        </tr>
-        {{/each}}
-    </script>
-</table>
-<hr>
-<h2>部署列表</h2>
-<hr>
-<table border="1" id="deployment-list">
-    <tr>
-        <td>编号</td>
-        <td>名称</td>
-        <td>部署时间</td>
-        <td>操作</td>
-    </tr>
-    <script id="deployments" type="text/html">
-        <tr>
-            <td>编号</td>
-            <td>名称</td>
-            <td>部署时间</td>
-            <td>操作</td>
-        </tr>
-    {{each rows.list}}
-    <tr>
-        <td>{{$value.id}}</td>
-        <td>{{$value.name}}</td>
-        <td>{{$value.deploymentTime}}</td>
-        <td><a href="javascript: AJAX.DELETE('/deployments/{{$value.id}}')">删除</a></td>
-    </tr>
-    {{/each}}
-    </script>
-</table>
-<script src="/lib/js/jquery-1.10.2.min.js"></script>
-<script src="/lib/js/jquery.cookie.js"></script>
-<script src="/js/ajax-util.js"></script>
-<script src="/lib/js/template.js"></script>
+    <div class="table-responsive">
+        <h2 class="text-center">模型管理</h2>
+        <hr>
+        <a class="btn btn-primary mb-3" href="javascript: AJAX.POST('/models/newModel');" role="button">绘制流程</a>
 
-<script>
-$(function() {
-    AJAX.GET("/models", null
-            , function (result) {
+        <table class="table table-hover table-bordered table-condensed">
+            <thead align="center">
+                <tr>
+                    <td>模型编号</td>
+                    <td>模型名称</td>
+                    <td>版本</td>
+                    <td>创建时间</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody id="model-list" align="center">
+                <script id="models" type="text/html">
+                    {{each rows.list}}
+                    <tr>
+                        <td>{{$value.id}}</td>
+                        <td>{{$value.name}}</td>
+                        <td>{{$value.version}}</td>
+                        <td>{{$value.createTime | timestamp: 'yyyy-MM-dd hh:mm:ss'}}</td>
+                        <td>
+                            <a class="btn btn-info btn-sm" href="/editor?modelId={{$value.id}}" role="button">编辑</a>
+                            <a class="btn btn-danger btn-sm" href="javascript: AJAX.DELETE('/models/{{$value.id}}');" role="button">删除</a>
+                            <a class="btn btn-primary btn-sm" href="javascript: AJAX.POST('/models/{{$value.id}}/deployment');" role="button">发布</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </script>
+            </tbody>
+        </table>
+
+        <h2 class="text-center">部署列表</h2>
+        <hr>
+
+        <table class="table table-hover table-bordered table-condensed">
+            <thead align="center">
+                <tr>
+                    <td>编号</td>
+                    <td>名称</td>
+                    <td>部署时间</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody id="deployment-list" align="center">
+                <script id="deployments" type="text/html">
+                    {{each rows.list}}
+                        <tr>
+                            <td>{{$value.id}}</td>
+                            <td>{{$value.name}}</td>
+                            <td>{{$value.deploymentTime | timestamp: 'yyyy-MM-dd hh:mm:ss'}}</td>
+                            <td><a class="btn btn-danger btn-sm" href="javascript: AJAX.DELETE('/deployments/{{$value.id}}');" role="button">删除</a></td>
+                        </tr>
+                    {{/each}}
+                </script>
+            </tbody>
+        </table>
+    </div>
+    <script src="/lib/js/jquery-1.10.2.min.js"></script>
+    <script src="/lib/js/jquery.cookie.js"></script>
+    <script src="bootstrap-4.3.1/js/bootstrap.min.js"></script>
+    <script src="/js/ajax-util.js"></script>
+    <script src="/lib/js/template.js"></script>
+    <script>
+        template.helper('timestamp', function(value, format) {
+            var date = new Date(value);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var d = date.getDate();
+            d = d < 10 ? ('0' + d) : d;
+            var h = date.getHours();
+            h = h < 10 ? ('0' + h) : h;
+            var minute = date.getMinutes();
+            var second = date.getSeconds();
+            minute = minute < 10 ? ('0' + minute) : minute;
+            second = second < 10 ? ('0' + second) : second;
+            return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+        });
+    </script>
+    <script>
+        $(function() {
+            AJAX.GET("/models", null , function (result) {
                 var html = template("models", result);
                 $("#model-list").html(html);
             });
-
-    AJAX.GET("/deployments", null
-            , function (result) {
+            AJAX.GET("/deployments", null, function (result) {
                 var html = template("deployments", result);
                 $("#deployment-list").html(html);
             });
-})
-</script>
+        })
+    </script>
 </body>
 </html>
