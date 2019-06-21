@@ -20,7 +20,7 @@
 WWW_PATH=/home/jars
 
 #Jenkins中编译好的jar位置
-JAR_PATH=${PROJECT_PATH}/target/
+JAR_PATH=${PROJECT_PATH}/target
 
 #获取运行编译好的进程ID，便于我们在重新部署项目的时候先杀掉以前的进程
 PID=$(cat /home/pidfiles/activiti.pid)
