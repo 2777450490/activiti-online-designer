@@ -6,7 +6,7 @@
 	<artifactId>activiti-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>activiti-online-designer</name>
+	<name>activiti-demo</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
