@@ -74,7 +74,7 @@ killServer
 createLogsFile
 
 #清空上次运行日志
-cat /dev/null > $LOGS_PATH/$LOGS_FILE_NAME
+echo '' > $LOGS_PATH/$LOGS_FILE_NAME
 
 echo "启动项目开始"
 nohup java -jar ${BACKUP_PATH}/${PROJECT_NAME}-${PROJECT_VERSION}.jar > $LOGS_PATH/$LOGS_FILE_NAME &
