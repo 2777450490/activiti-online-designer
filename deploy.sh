@@ -34,8 +34,11 @@ JAR_PATH=${PROJECT_PATH}/target
 #备份路径（最终运行路径）
 BACKUP_PATH=/home/backups
 
+#备份前先删除之前的备份
+rm -f ${BACKUP_PATH}/${PROJECT_NAME}-${PROJECT_VERSION}.jar
+
 #备份
-\cp -f ${JAR_PATH}/${PROJECT_NAME}-${PROJECT_VERSION}.jar ${BACKUP_PATH}
+cp ${JAR_PATH}/${PROJECT_NAME}-${PROJECT_VERSION}.jar ${BACKUP_PATH}
 
 #关闭上一次运行中的进程
 killServer
