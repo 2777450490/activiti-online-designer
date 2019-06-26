@@ -1,35 +1,32 @@
 #!/usr/bin/env bash
 
 ##########开始########
-## export BUILD_ID=DONTKILLME   这一句很重要，这样指定了，项目启动之后才不会被Jenkins杀掉。
-## 加载配置参数
+## #这一句很重要，这样指定了，项目启动之后才不会被Jenkins杀掉。
+## export BUILD_ID=DONTKILLME
+## #加载配置参数
 ## . /etc/profile
 ## export PROJECT_PATH=`pwd`
+## #Maven命令获取项目名
+## export PROJECT_NAME=`mvn help:evaluate -Dexpression=project.name | grep "^[^\[]"`
+## echo "项目名为 ${PROJECT_NAME}"
+## #Maven命令获取项目版本
+## export PROJECT_VERSION=`mvn help:evaluate -Dexpression=project.version | grep "^[^\[]"`
+## echo "项目版本号为 ${PROJECT_VERSION}"
 ## sh ${PROJECT_PATH}/deploy.sh
 ##########结束########
 ########以上在jenkins网页中编写
 
 
 killServer(){
-    pid=`ps -ef|grep ${NAME}-${VERSION}|grep -v grep|awk '{print $2}'`
+    pid=`ps -ef|grep ${PROJECT_NAME}-${PROJECT_VERSION}|grep -v grep|awk '{print $2}'`
     echo "jar Id list :$pid"
     if [ "$pid" = "" ]
     then
-      echo "no jar pid alive"
+      echo "没有找到此项目运行的pid"
     else
       kill -9 $pid
     fi
 }
-
-cd ${PROJECT_PATH}/
-
-#Maven命令获取项目名
-PROJECT_NAME=`mvn help:evaluate -Dexpression=project.name | grep "^[^\[]"`
-echo "项目名为 ${PROJECT_NAME}"
-
-#Maven命令获取项目版本
-PROJECT_VERSION=`mvn help:evaluate -Dexpression=project.version | grep "^[^\[]"`
-echo "项目版本号为 ${PROJECT_VERSION}"
 
 #Jenkins中编译好的jar位置
 JAR_PATH=${PROJECT_PATH}/target
