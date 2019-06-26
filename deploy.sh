@@ -22,6 +22,12 @@ BACKUP_PATH=/home/backups
 #Jenkins中编译好的jar位置
 JAR_PATH=${PROJECT_PATH}/target
 
+#项目运行日志文件目录
+LOGS_PATH=/home/logs
+
+#项目运行日志文件名
+LOGS_FILE_NAME=log.out
+
 killServer(){
     pid=`ps -ef|grep ${PROJECT_NAME}-${PROJECT_VERSION}|grep -v grep|awk '{print $2}'`
     echo "jar Id list :$pid"
@@ -41,6 +47,19 @@ createFolder(){
     fi
 }
 
+createLogsFile(){
+    if [ ! -d $LOGS_PATH ];then
+        mkdir $LOGS_PATH
+        touch $LOGS_PATH/$LOGS_FILE_NAME
+    else
+        if [ ! -f $LOGS_PATH/$LOGS_FILE_NAME  ];then
+            touch $LOGS_PATH/$LOGS_FILE_NAME
+        else
+            echo "文件存在"
+        fi
+    fi
+}
+
 createFolder
 
 #备份前先删除之前的备份
@@ -52,9 +71,11 @@ cp ${JAR_PATH}/${PROJECT_NAME}-${PROJECT_VERSION}.jar ${BACKUP_PATH}
 #关闭上一次运行中的进程
 killServer
 
+createLogsFile
+
 #清空上次运行日志
-cat /dev/null > /home/logs/nohup.out
+cat /dev/null > $LOGS_PATH/$LOGS_FILE_NAME
 
 echo "启动项目开始"
-nohup java -jar ${BACKUP_PATH}/${PROJECT_NAME}-${PROJECT_VERSION}.jar > /home/logs/nohup.out &
+nohup java -jar ${BACKUP_PATH}/${PROJECT_NAME}-${PROJECT_VERSION}.jar > $LOGS_PATH/$LOGS_FILE_NAME &
 echo "启动项目结束"
