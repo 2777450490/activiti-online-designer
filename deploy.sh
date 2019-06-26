@@ -55,7 +55,7 @@ createLogsFile(){
         if [ ! -f $LOGS_PATH/$LOGS_FILE_NAME  ];then
             touch $LOGS_PATH/$LOGS_FILE_NAME
         else
-            echo "文件存在"
+            echo "日志文件存在"
         fi
     fi
 }
