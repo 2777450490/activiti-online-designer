@@ -16,6 +16,11 @@
 ##########结束########
 ########以上在jenkins网页中编写
 
+#备份路径（最终运行路径）
+BACKUP_PATH=/home/backups
+
+#Jenkins中编译好的jar位置
+JAR_PATH=${PROJECT_PATH}/target
 
 killServer(){
     pid=`ps -ef|grep ${PROJECT_NAME}-${PROJECT_VERSION}|grep -v grep|awk '{print $2}'`
@@ -28,11 +33,15 @@ killServer(){
     fi
 }
 
-#Jenkins中编译好的jar位置
-JAR_PATH=${PROJECT_PATH}/target
+createFolder(){
+    if [ ! -d $BACKUP_PATH ];then
+        mkdir $BACKUP_PATH
+    else
+        echo "文件夹已经存在"
+    fi
+}
 
-#备份路径（最终运行路径）
-BACKUP_PATH=/home/backups
+createFolder
 
 #备份前先删除之前的备份
 rm -f ${BACKUP_PATH}/${PROJECT_NAME}-${PROJECT_VERSION}.jar
