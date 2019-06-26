@@ -1,61 +1,48 @@
 #!/usr/bin/env bash
 
-#export BUILD_ID=dontKillMe这一句很重要，这样指定了，项目启动之后才不会被Jenkins杀掉。
-#export BUILD_ID=DONTKILLME
-#加载配置参数
-#. /etc/profile
-#projectPath是jenkins工作目录
-#export PROJECT_PATH=`pwd`
-#cd ${PROJECT_PATH}/activiti-online-designer/
-#export NAME=`mvn help:evaluate -Dexpression=project.name | grep "^[^\[]"`
-#echo ${NAME}
-#export VERSION=`mvn help:evaluate -Dexpression=project.version | grep "^[^\[]"`
-#echo ${VERSION}
+##########开始########
+## export BUILD_ID=DONTKILLME   这一句很重要，这样指定了，项目启动之后才不会被Jenkins杀掉。
+## 加载配置参数
+## . /etc/profile
+## export PROJECT_PATH=`pwd`
+## sh ${PROJECT_PATH}/deploy.sh
+##########结束########
+########以上在jenkins网页中编写
 
-## PROJECT_PATH  是Jenkins工作目录
-## NAME Jar名称
-## VERSION Jar版本
-
-
-#Jenkins中编译好的jar位置
-JAR_PATH=${PROJECT_PATH}/target
-
-##指定最后编译好的jar存放的位置
-#WWW_PATH=/home/jars/
-#
-#mkdirFolder(){
-#    if [ ! -d $WWW_PATH ];then
-#        mkdir $WWW_PATH
-#    else
-#        echo "文件夹已经存在"
-#    fi
-#}
-#
-#mkdirFolder
 
 killServer(){
-    #获取运行编译好的进程ID，便于我们在重新部署项目的时候先杀掉以前的进程
-    pid=$(cat /home/pidfiles/activiti.pid)
-    echo "tomcat Id list :$pid"
+    pid=`ps -ef|grep ${NAME}-${VERSION}|grep -v grep|awk '{print $2}'`
+    echo "jar Id list :$pid"
     if [ "$pid" = "" ]
     then
-      echo "no tomcat pid alive"
+      echo "no jar pid alive"
     else
       kill -9 $pid
     fi
 }
-#将编译好的jar复制到最后指定的位置
-#cp ${JAR_PATH}/${NAME}-${VERSION}.jar ${WWW_PATH}
 
-#杀掉以前可能启动的项目进程
+cd ${PROJECT_PATH}/
+
+#Maven命令获取项目名
+PROJECT_NAME=`mvn help:evaluate -Dexpression=project.name | grep "^[^\[]"`
+echo "项目名为 ${PROJECT_NAME}"
+
+#Maven命令获取项目版本
+PROJECT_VERSION=`mvn help:evaluate -Dexpression=project.version | grep "^[^\[]"`
+echo "项目版本号为 ${PROJECT_VERSION}"
+
+#Jenkins中编译好的jar位置
+JAR_PATH=${PROJECT_PATH}/target
+
+#备份路径（最终运行路径）
+BACKUP_PATH=/home/backups
+
+#备份
+cp ${JAR_PATH}/${PROJECT_NAME}-${PROJECT_VERSION}.jar ${BACKUP_PATH}/
+
+#关闭上一次运行中的进程
 killServer
 
-#进入最后指定存放jar的位置
-cd ${JAR_PATH}
-
-#启动jar，指定SpringBoot的profiles为test,后台启动
-#java -jar -Dspring.profiles.active=test ${jar_name} &
-java -jar ${NAME}-${VERSION}.jar &
-
-#将进程ID存入到activiti.pid文件中
-echo $! > /home/pidfiles/activiti.pid
+echo "启动项目开始"
+nohup java -jar ${BACKUP_PATH}/${PROJECT_NAME}-${PROJECT_VERSION}.jar >  /dev/null &
+echo "启动项目结束"
