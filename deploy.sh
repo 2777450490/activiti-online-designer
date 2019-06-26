@@ -20,18 +20,18 @@
 #Jenkins中编译好的jar位置
 JAR_PATH=${PROJECT_PATH}/target
 
-#指定最后编译好的jar存放的位置
-WWW_PATH=/home/jars
-
-mkdirFolder(){
-    if [ ! -d $WWW_PATH ];then
-        mkdir $WWW_PATH
-    else
-        echo "文件夹已经存在"
-    fi
-}
-
-mkdirFolder
+##指定最后编译好的jar存放的位置
+#WWW_PATH=/home/jars/
+#
+#mkdirFolder(){
+#    if [ ! -d $WWW_PATH ];then
+#        mkdir $WWW_PATH
+#    else
+#        echo "文件夹已经存在"
+#    fi
+#}
+#
+#mkdirFolder
 
 killServer(){
     #获取运行编译好的进程ID，便于我们在重新部署项目的时候先杀掉以前的进程
@@ -44,15 +44,14 @@ killServer(){
       kill -9 $pid
     fi
 }
-
 #将编译好的jar复制到最后指定的位置
-cp ${JAR_PATH}/${NAME}-${VERSION}.jar ${WWW_PATH}
+#cp ${JAR_PATH}/${NAME}-${VERSION}.jar ${WWW_PATH}
 
 #杀掉以前可能启动的项目进程
 killServer
 
 #进入最后指定存放jar的位置
-cd ${WWW_PATH}
+cd ${JAR_PATH}
 
 #启动jar，指定SpringBoot的profiles为test,后台启动
 #java -jar -Dspring.profiles.active=test ${jar_name} &
