@@ -35,7 +35,7 @@ JAR_PATH=${PROJECT_PATH}/target
 BACKUP_PATH=/home/backups
 
 #备份
-cp ${JAR_PATH}/${PROJECT_NAME}-${PROJECT_VERSION}.jar ${BACKUP_PATH}/
+\cp -f ${JAR_PATH}/${PROJECT_NAME}-${PROJECT_VERSION}.jar ${BACKUP_PATH}
 
 #关闭上一次运行中的进程
 killServer
