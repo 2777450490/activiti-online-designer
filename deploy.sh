@@ -71,6 +71,7 @@ cp ${JAR_PATH}/${PROJECT_NAME}-${PROJECT_VERSION}.jar ${BACKUP_PATH}
 #关闭上一次运行中的进程
 killServer
 
+#创建日志输出文件
 createLogsFile
 
 #清空上次运行日志
